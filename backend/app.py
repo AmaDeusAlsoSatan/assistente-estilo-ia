@@ -8,17 +8,20 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
+# Define o diretório de dados do NLTK para ser dentro do diretório do projeto
+NLTK_DATA_DIR = os.path.join(os.path.dirname(__file__), 'nltk_data')
+os.makedirs(NLTK_DATA_DIR, exist_ok=True)
+nltk.data.path.append(NLTK_DATA_DIR)
+
 # Configuração da Aplicação
 app = Flask(__name__, static_folder='../frontend', template_folder='../frontend')
 app.config['UPLOAD_FOLDER'] = os.path.join(app.static_folder, 'uploads')
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Descarrega as stopwords para o português (se ainda não tiver)
-try:
-    stop_words = set(stopwords.words('portuguese'))
-except LookupError:
-    nltk.download('stopwords')
-    stop_words = set(stopwords.words('portuguese'))
+# Em produção, o download deve ser feito durante a fase de build do Render.
+# A linha `nltk.download('stopwords')` foi removida para evitar erros em tempo de execução.
+stop_words = set(stopwords.words('portuguese'))
 
 # --- CONFIGURAÇÃO DAS CHAVES DE API ---
 # --- CONFIGURAÇÃO DA CHAVE DE API (MODO DE PRODUÇÃO) ---

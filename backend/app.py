@@ -7,6 +7,7 @@ import serpapi # Apenas importe a biblioteca principal
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+import requests # Adicionado para a lógica de aquecimento
 
 # Define o diretório de dados do NLTK para ser dentro do diretório do projeto
 NLTK_DATA_DIR = os.path.join(os.path.dirname(__file__), 'nltk_data')
@@ -36,12 +37,10 @@ def pagina_inicial():
 
 @app.route("/api/search-image", methods=['POST'])
 def search_image():
-    # --- 1. RECEBER E GUARDAR A IMAGEM TEMPORARIAMENTE ---
     if 'imagem_referencia' not in request.files:
         return jsonify({"status": "erro", "mensagem": "Nenhum ficheiro de imagem enviado."}), 400
     
     file = request.files['imagem_referencia']
-    
     if file.filename == '':
         return jsonify({"status": "erro", "mensagem": "Nenhum ficheiro selecionado."}), 400
 
@@ -50,51 +49,43 @@ def search_image():
     file.save(filepath)
     print(f"--- Imagem temporária guardada em: {filepath} ---")
 
-    # --- A CORREÇÃO CRUCIAL ESTÁ AQUI ---
-    # No Render, a aplicação já tem um URL público. Não precisamos do ngrok.
-    # A imagem será acessível diretamente através do URL do Render.
-    # Por exemplo: https://assistente-estilo-ia.onrender.com/frontend/uploads/{filename}
-    # O frontend já deve estar a construir o URL corretamente.
-    # Se o frontend precisar do URL base, ele pode ser passado via render_template ou uma variável JS.
-    # Por enquanto, vamos assumir que o frontend sabe como acessar /frontend/uploads/{filename}
-    
-    # Para o Render, o URL da imagem precisa ser absoluto para a SerpApi acessar.
-    # Usamos a variável de ambiente RENDER_EXTERNAL_HOSTNAME (fornecida pelo Render)
-    # para construir o URL base da aplicação.
-    render_base_url = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-    if render_base_url:
-        image_public_url = f"https://{render_base_url}/frontend/uploads/{filename}"
-    else:
-        # Fallback para desenvolvimento local, se necessário, ou erro se não estiver no Render
-        image_public_url = f"/frontend/uploads/{filename}" # Isso só funcionaria localmente
-        print("AVISO: RENDER_EXTERNAL_HOSTNAME não definido. Usando URL relativo. A busca por imagem pode falhar em produção.")
-    
-    print(f"--- URL pública REAL da imagem gerada: {image_public_url} ---")
+    # Obtém a URL base da aplicação a partir do pedido atual
+    base_url = request.host_url
+    image_public_url = f"{base_url}frontend/uploads/{filename}"
+    print(f"--- URL pública da imagem gerada: {image_public_url} ---")
 
-    # --- 3. CHAMAR A API DO GOOGLE LENS COM A URL ---
     try:
+        # --- LÓGICA DE AQUECIMENTO ---
+        # Antes de enviar para a SerpApi, fazemos um pedido a nós mesmos para "acordar" o servidor de ficheiros.
+        print("--- A 'aquecer' o servidor de ficheiros... ---")
+        warmup_response = requests.get(image_public_url, timeout=20)
+        warmup_response.raise_for_status() # Lança um erro se não conseguir aceder à imagem
+        print(f"--- Servidor 'aquecido' com sucesso (Status: {warmup_response.status_code}) ---")
+        # ----------------------------
+
         print(f"--- A enviar URL para a API Google Lens da SerpApi... ---")
         params = {
             "engine": "google_lens",
-            "url": image_public_url, # Usamos o URL relativo ao servidor Render
+            "url": image_public_url,
             "api_key": SERPAPI_API_KEY
         }
         client = serpapi.Client()
         results = client.search(params)
         
-        # Extrai apenas os resultados que nos interessam
         visual_matches = results.get("visual_matches", [])
         
         print(f"--- Resposta da API recebida! Encontrados {len(visual_matches)} resultados. ---")
         return jsonify({"status": "sucesso", "results": visual_matches})
 
+    except requests.exceptions.RequestException as e:
+        # Este erro agora pode apanhar o erro de aquecimento ou o erro da SerpApi
+        print(f"ERRO DE REDE (Aquecimento ou SerpApi): {e}")
+        return jsonify({"status": "erro", "mensagem": f"Erro de rede ao processar o pedido: {e}"}), 500
     except Exception as e:
-        print(f"ERRO AO CHAMAR A API: {e}")
+        print(f"ERRO GERAL AO CHAMAR A API: {e}")
         return jsonify({"status": "erro", "mensagem": str(e)}), 500
     
     finally:
-        # --- 4. LIMPAR: APAGAR A IMAGEM TEMPORÁRIA ---
-        # Este bloco 'finally' garante que a imagem é apagada mesmo que ocorra um erro
         if os.path.exists(filepath):
             os.remove(filepath)
             print(f"--- Imagem temporária removida: {filepath} ---")

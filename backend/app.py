@@ -58,7 +58,7 @@ def search_image():
         # --- LÓGICA DE AQUECIMENTO ---
         # Antes de enviar para a SerpApi, fazemos um pedido a nós mesmos para "acordar" o servidor de ficheiros.
         print("--- A 'aquecer' o servidor de ficheiros... ---")
-        warmup_response = requests.get(image_public_url, timeout=20)
+        warmup_response = requests.get(image_public_url, timeout=60) # Aumentado o timeout para 60 segundos
         warmup_response.raise_for_status() # Lança um erro se não conseguir aceder à imagem
         print(f"--- Servidor 'aquecido' com sucesso (Status: {warmup_response.status_code}) ---")
         # ----------------------------

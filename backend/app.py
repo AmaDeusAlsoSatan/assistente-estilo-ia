@@ -58,8 +58,17 @@ def search_image():
     # Se o frontend precisar do URL base, ele pode ser passado via render_template ou uma variável JS.
     # Por enquanto, vamos assumir que o frontend sabe como acessar /frontend/uploads/{filename}
     
-    # Para o Render, o URL da imagem será relativo ao servidor
-    image_public_url = f"/frontend/uploads/{filename}"
+    # Para o Render, o URL da imagem precisa ser absoluto para a SerpApi acessar.
+    # Usamos a variável de ambiente RENDER_EXTERNAL_HOSTNAME (fornecida pelo Render)
+    # para construir o URL base da aplicação.
+    render_base_url = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+    if render_base_url:
+        image_public_url = f"https://{render_base_url}/frontend/uploads/{filename}"
+    else:
+        # Fallback para desenvolvimento local, se necessário, ou erro se não estiver no Render
+        image_public_url = f"/frontend/uploads/{filename}" # Isso só funcionaria localmente
+        print("AVISO: RENDER_EXTERNAL_HOSTNAME não definido. Usando URL relativo. A busca por imagem pode falhar em produção.")
+    
     print(f"--- URL pública REAL da imagem gerada: {image_public_url} ---")
 
     # --- 3. CHAMAR A API DO GOOGLE LENS COM A URL ---

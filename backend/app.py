@@ -3,7 +3,7 @@ import os
 import uuid
 from flask import Flask, render_template, request, jsonify, url_for
 from werkzeug.utils import secure_filename
-from serpapi import GoogleSearch
+import serpapi # Apenas importe a biblioteca principal
 from pyngrok import ngrok # Importa a nova biblioteca
 import nltk
 from nltk.corpus import stopwords
@@ -66,8 +66,8 @@ def search_image():
             "url": image_public_url,
             "api_key": SERPAPI_API_KEY
         }
-        search = GoogleSearch(params)
-        results = search.get_dict()
+        client = serpapi.Client()
+        results = client.search(params)
         
         # Extrai apenas os resultados que nos interessam
         visual_matches = results.get("visual_matches", [])
@@ -114,8 +114,8 @@ def search_text():
             "q": final_query,
             "api_key": SERPAPI_API_KEY
         }
-        search = GoogleSearch(params)
-        results = search.get_dict()
+        client = serpapi.Client()
+        results = client.search(params)
 
         image_results = results.get("images_results", [])
         

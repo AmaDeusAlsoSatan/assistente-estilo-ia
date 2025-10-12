@@ -100,7 +100,7 @@ def search_text():
 
     # --- PIPELINE DE PLN (continua igual) ---
     texto_limpo = produto.lower()
-    tokens = word_tokenize(texto_limpo)
+    tokens = word_tokenize(texto_limpo, language='portuguese')
     palavras_chave = [word for word in tokens if word.isalpha() and word not in stop_words]
     prompt_final = " ".join(palavras_chave)
     

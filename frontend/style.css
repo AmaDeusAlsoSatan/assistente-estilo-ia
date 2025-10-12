@@ -1,0 +1,348 @@
+/* Reset Básico e Estilos Gerais */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #1c1e21;
+    margin: 0;
+    padding: 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Container Principal */
+.container {
+    display: grid;
+    grid-template-columns: 350px 1fr; /* Coluna de controlo fixa, coluna de resultados flexível */
+    gap: 2rem;
+    max-width: 1400px;
+    margin: auto;
+}
+
+/* Painel de Controlo (Esquerda) */
+.controls {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    height: fit-content; /* Para que não estique desnecessariamente */
+}
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+.option {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+input[type="text"], select {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* Garante que o padding não aumente a largura */
+}
+
+input[type="file"] {
+    font-size: 0.9rem;
+}
+
+.image-preview-hidden {
+    display: none;
+}
+
+#image-preview {
+    max-width: 100%;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+button {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #1877f2;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #166fe5;
+}
+
+button:disabled {
+    background-color: #a0bdf1;
+    cursor: not-allowed;
+}
+
+.disclaimer {
+    font-size: 0.8rem;
+    color: #666;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+/* Painel de Resultados (Direita) */
+.results {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.results-grid { /* Nova classe para grelha, aplicada a results-container e favorites-container */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Layout de grelha responsivo */
+    gap: 1rem;
+}
+
+
+.placeholder-text {
+    color: #888;
+}
+
+.result-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* Estilos para os Novos Cards de Resultado */
+/* Estilos para os Cards de Resultado (unificados e melhorados) */
+.result-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden; /* Garante que a imagem não ultrapasse as bordas arredondadas */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    text-align: left;
+    background-color: #fff; /* Fundo branco para os cards */
+    display: flex; /* Para organizar o conteúdo interno */
+    flex-direction: column;
+    position: relative; /* Necessário para o posicionamento do botão de favorito/checkbox */
+}
+
+.result-card a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.result-card img {
+    width: 100%;
+    height: 250px; /* Altura fixa para os cards ficarem uniformes */
+    object-fit: cover;
+    display: block;
+}
+
+.result-card .card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.result-card .card-source {
+    font-size: 0.8rem;
+    color: #666;
+    padding: 0 0.75rem 0.5rem;
+}
+
+/* Estilos para o botão de favoritar */
+.favorite-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.6); /* Mais escuro para melhor contraste */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, transform 0.2s;
+    z-index: 5; /* Para ficar por cima da imagem */
+}
+
+.favorite-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+}
+
+.favorite-checkbox {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    z-index: 10; /* Para ficar por cima do link da imagem e do botão de favorito */
+}
+
+/* Estilos para as Abas */
+.tabs {
+    display: flex;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #ccc;
+}
+.tab-link, .tab-link-results {
+    padding: 10px 15px;
+    cursor: pointer;
+    border: none;
+    background-color: #e0e0e0; /* Cor de fundo para abas inativas */
+    color: #555; /* Cor de texto para abas inativas */
+    border-bottom: 2px solid transparent;
+    font-size: 1rem;
+    transition: background-color 0.2s, color 0.2s; /* Adicionar transição */
+}
+.tab-link.active, .tab-link-results.active {
+    background-color: #fff; /* Fundo branco para aba ativa */
+    color: #1877f2; /* Cor de texto azul para aba ativa */
+    border-bottom: 2px solid #1877f2;
+    font-weight: bold;
+}
+.tab-content, .tab-content-results {
+    display: none;
+}
+.tab-content.active, .tab-content-results.active {
+    display: block;
+}
+
+/* Estilos para o Chatbot */
+#chat-container {
+    display: flex;
+    flex-direction: column;
+}
+#chat-messages {
+    height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 10px;
+    overflow-y: auto;
+    background-color: #f0f2f5;
+}
+#chat-messages .user-message {
+    text-align: right;
+    margin-bottom: 5px;
+}
+#chat-messages .user-message span {
+    background-color: #1877f2;
+    color: white;
+    padding: 10px 15px; /* Padding aumentado para mais espaço */
+    border-radius: 15px; /* Bordas mais arredondadas */
+    word-break: break-word; /* Quebra palavras longas */
+    display: inline-block; /* Para que max-width funcione */
+    max-width: 80%; /* Limita a largura do balão */
+}
+#chat-input {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+}
+
+.organizer-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+.organizer-controls button, .import-label {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    background-color: #e4e6eb;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #1c1e21; /* Cor de texto escura para melhor contraste */
+    font-weight: 600; /* Deixa a fonte um pouco mais forte */
+}
+.organizer-controls button:hover, .import-label:hover {
+    background-color: #d8dbdf;
+}
+
+.folder {
+    margin-bottom: 2rem;
+}
+.folder-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+.folder-header h3 {
+    margin: 0;
+}
+
+/* Estilos para o Modal de Seleção de Pasta */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    min-width: 300px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal-content h3 {
+    margin-top: 0;
+}
+
+.modal-folder-list button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 0.5rem;
+    background-color: #f0f2f5;
+    color: #1c1e21; /* Cor de texto escura para melhor contraste */
+    font-weight: 600; /* Deixa a fonte um pouco mais forte */
+}
+
+.favorite-checkbox {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    z-index: 10; /* Para ficar por cima do link da imagem */
+}

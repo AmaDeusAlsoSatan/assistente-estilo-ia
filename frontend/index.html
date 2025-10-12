@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistente de Estilo IA</title>
+    <link rel="stylesheet" href="/frontend/style.css">
+</head>
+<body>
+    <header>
+        <h1>Assistente de Estilo IA</h1>
+    </header>
+
+    <main class="container">
+        <section class="controls">
+            <div class="tabs">
+                <button class="tab-link active" data-tab="tab-text">Busca por Texto</button>
+                <button class="tab-link" data-tab="tab-image">Busca por Imagem</button>
+                <button class="tab-link" data-tab="tab-advanced">Busca Avançada</button>
+            </div>
+
+            <div id="tab-text" class="tab-content active">
+                <h2>Descreva o que procura</h2>
+                <div class="option">
+                    <label for="produto-prompt">Peça de roupa, estilo, cor...</label>
+                    <input type="text" id="produto-prompt" placeholder="Ex: vestido de verão floral, justo...">
+                </div>
+                <button id="search-text-btn">Buscar por Texto</button>
+            </div>
+
+            <div id="tab-image" class="tab-content">
+                <h2>Envie uma imagem de referência</h2>
+                <div class="option">
+                    <input type="file" id="imagem-referencia" accept="image/*">
+                    <img id="image-preview" src="#" alt="Pré-visualização" class="image-preview-hidden"/>
+                </div>
+                <button id="search-image-btn">Buscar por Imagem</button>
+            </div>
+
+            <div id="tab-advanced" class="tab-content">
+                <h2>Busca Conversacional</h2>
+                <div id="chat-container">
+                    <div id="chat-messages"></div>
+                    <input type="text" id="chat-input" placeholder="Converse comigo sobre o seu estilo...">
+                </div>
+                <hr>
+                <h2>Analisar Painel do Pinterest</h2>
+                <div class="option">
+                    <label for="pinterest-url">Cole o URL de um painel público:</label>
+                    <input type="text" id="pinterest-url" placeholder="https://www.pinterest.com/user/board-name/">
+                </div>
+                <button id="pinterest-btn">Analisar Estilo do Pinterest</button>
+            </div>
+        </section>
+
+        <section class="results">
+            <div class="tabs">
+                <button class="tab-link-results active" data-tab="tab-search-results">Resultados da Busca</button>
+                <button class="tab-link-results" data-tab="tab-favorites">Seu Painel de Estilo</button>
+            </div>
+
+            <div id="tab-search-results" class="tab-content-results active">
+                <h2>Referências Encontradas</h2>
+                <div id="results-container" class="results-grid">
+                    <p class="placeholder-text">Os resultados da sua busca aparecerão aqui...</p>
+                </div>
+            </div>
+
+            <div id="tab-favorites" class="tab-content-results">
+                <div class="organizer-controls">
+                    <button id="create-folder-btn">➕ Criar Nova Pasta</button>
+                    <button id="export-btn">💾 Exportar Painel</button>
+                    <label for="import-input" class="import-label">📂 Importar Painel</label>
+                    <input type="file" id="import-input" accept=".json" style="display: none;">
+                </div>
+                <hr>
+                <div id="folders-container">
+                </div>
+                <button id="refine-search-btn" style="display: none;">Buscar Itens Similares aos Selecionados</button>
+            </div>
+        </section>
+    </main>
+    <script src="/frontend/script.js"></script>
+</body>
+</html>

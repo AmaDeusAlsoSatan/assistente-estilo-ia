@@ -1,0 +1,67 @@
+[
+  {
+    "id": "swpants25210326080",
+    "name": "Calça Jeans Feminina Wide Leg pantalona Cintura Alta Tecido grafite",
+    "category": "Jeans Feminino",
+    "subCategory": "Perna larga",
+    "brand": "DAZY",
+    "price": { "amount": 79.90, "currency": "BRL" },
+    "attributes": { "color": "Grafite", "waistline": "Cintura Alta", "material_details": "Tecido Grosso Premium" },
+    "sourceInfo": {
+      "productUrl": "https://br.shein.com/DAZY-Less-Solid-Wide-Leg-Jeans-p-2823879.html",
+      "discoveryUrl": "https://www.youtube.com/watch?v=7igulYE71kY"
+    },
+    "socialProof": { "salesVolume": "7.3k+", "ratingCount": "1000+" },
+    "influencerContext": [
+      {
+        "influencerName": "Daniela Veber",
+        "sizePurchased": "M",
+        "reviewUrl": "https://www.youtube.com/watch?v=7igulYE71kY",
+        "measurements": { "height_cm": 167, "weight_kg": 60, "bust_cm": 90, "waist_cm": 65, "hips_cm": 99 }
+      },
+      {
+        "influencerName": "Jéssica Gomes",
+        "sizePurchased": "30",
+        "reviewUrl": "https://www.youtube.com/watch?v=C9qkjZak4kl",
+        "measurements": {}
+      }
+    ]
+  },
+  {
+    "id": "2808359",
+    "name": "Vestido floral azul Corte Fora Tie Back",
+    "category": "Vestidos",
+    "subCategory": "Floral",
+    "brand": "SHEIN",
+    "price": { "amount": 85.99, "currency": "BRL" },
+    "attributes": { "color": "Azul", "pattern": "Floral", "style": "Boho", "details": "Corte Fora, Tie Back" },
+    "sourceInfo": {
+      "productUrl": "https://api-shein.shein.com/h5/sharejump/appsharejump?lan=pt-br&share_type=goods&site=iosshbr&localcountry=br&id=2808359",
+      "discoveryUrl": "https://www.youtube.com/watch?v=9R4sVoBXsJQ"
+    },
+    "socialProof": { "salesVolume": "1k+", "ratingCount": "500+", "ratingValue": 4.9 },
+    "influencerContext": [
+       {
+        "influencerName": "Nalva Faustino",
+        "sizePurchased": "M",
+        "reviewUrl": "https://www.youtube.com/watch?v=9R4sVoBXsJQ",
+        "measurements": { "height_cm": 165, "weight_kg": 62, "bust_cm": 92, "waist_cm": 74, "hips_cm": 106 }
+      }
+    ]
+  },
+  {
+    "id": "50116380",
+    "name": "MUSERA Logo Text Embroidery Patch Oversized Hoodie",
+    "category": "Moletons",
+    "subCategory": "Hoodie",
+    "brand": "MUSERA",
+    "price": { "amount": 150.00, "currency": "BRL" },
+    "attributes": { "color": "Grey", "style": "Y2K Streetwear", "fit": "Oversized", "details": "Embroidery Patch" },
+    "sourceInfo": {
+      "productUrl": "https://shein.top/h7hgimo",
+      "discoveryUrl": "https://www.youtube.com/watch?v=kLxtVJH9Rvs"
+    },
+    "socialProof": { "salesVolume": null, "ratingCount": null, "ratingValue": null },
+    "influencerContext": []
+  }
+]

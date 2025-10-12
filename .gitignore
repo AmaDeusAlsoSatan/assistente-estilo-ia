@@ -1,0 +1,9 @@
+# Ambiente Virtual
+venv/
+
+# Ficheiros de cache do Python
+__pycache__/
+*.pyc
+
+# Ficheiros de sistema
+.DS_Store

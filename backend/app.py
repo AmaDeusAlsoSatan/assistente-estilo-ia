@@ -4,7 +4,6 @@ import uuid
 from flask import Flask, render_template, request, jsonify, url_for
 from werkzeug.utils import secure_filename
 import serpapi # Apenas importe a biblioteca principal
-from pyngrok import ngrok # Importa a nova biblioteca
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
@@ -25,14 +24,11 @@ except LookupError:
 # --- CONFIGURAÇÃO DA CHAVE DE API (MODO DE PRODUÇÃO) ---
 # Lê a chave da variável de ambiente configurada no servidor do Render
 SERPAPI_API_KEY = os.environ.get('SERPAPI_API_KEY', '')
-NGROK_AUTHTOKEN = "33lOQBU0OinAudaRHZu19WJBadc_7Tns6dahLqUzV9S4FThcL" # <-- INSIRA A SUA CHAVE DO NGROK AQUI
 # ------------------------------------
 
 # --- ROTAS DA APLICAÇÃO ---
 @app.route("/")
 def pagina_inicial():
-    # O ngrok nos dá um URL, então o nosso template precisa de ser servido pela rota
-    # Em vez de render_template, vamos servir o ficheiro estático diretamente
     return app.send_static_file('index.html')
 
 @app.route("/api/search-image", methods=['POST'])
@@ -52,10 +48,15 @@ def search_image():
     print(f"--- Imagem temporária guardada em: {filepath} ---")
 
     # --- A CORREÇÃO CRUCIAL ESTÁ AQUI ---
-    # Obtém a URL pública do ngrok que está a correr
-    public_url = ngrok.get_tunnels()[0].public_url
-    # Cria o URL da imagem usando a morada pública do ngrok
-    image_public_url = f"{public_url}/frontend/uploads/{filename}"
+    # No Render, a aplicação já tem um URL público. Não precisamos do ngrok.
+    # A imagem será acessível diretamente através do URL do Render.
+    # Por exemplo: https://assistente-estilo-ia.onrender.com/frontend/uploads/{filename}
+    # O frontend já deve estar a construir o URL corretamente.
+    # Se o frontend precisar do URL base, ele pode ser passado via render_template ou uma variável JS.
+    # Por enquanto, vamos assumir que o frontend sabe como acessar /frontend/uploads/{filename}
+    
+    # Para o Render, o URL da imagem será relativo ao servidor
+    image_public_url = f"/frontend/uploads/{filename}"
     print(f"--- URL pública REAL da imagem gerada: {image_public_url} ---")
 
     # --- 3. CHAMAR A API DO GOOGLE LENS COM A URL ---
@@ -63,7 +64,7 @@ def search_image():
         print(f"--- A enviar URL para a API Google Lens da SerpApi... ---")
         params = {
             "engine": "google_lens",
-            "url": image_public_url,
+            "url": image_public_url, # Usamos o URL relativo ao servidor Render
             "api_key": SERPAPI_API_KEY
         }
         client = serpapi.Client()
@@ -135,16 +136,3 @@ def search_text():
     except Exception as e:
         print(f"ERRO AO CHAMAR A API DE BUSCA DE IMAGENS: {e}")
         return jsonify({"status": "erro", "mensagem": str(e)}), 500
-
-
-if __name__ == "__main__":
-    # Configura e inicia o túnel ngrok antes de iniciar o servidor Flask
-    ngrok.set_auth_token(NGROK_AUTHTOKEN)
-    public_url = ngrok.connect(5000)
-    print("===================================================================")
-    print(f" * A sua aplicação está a correr publicamente em: {public_url}")
-    print(" * Use este URL no seu navegador!")
-    print("===================================================================")
-    
-    # Inicia o servidor Flask
-    app.run(port=5000)

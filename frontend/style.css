@@ -8,8 +8,12 @@ body {
 }
 
 header {
-    text-align: center;
+    text-align: center; /* Garante que o logo e o título fiquem centrados */
     margin-bottom: 2rem;
+}
+header img {
+    display: block; /* Faz a imagem ocupar a linha */
+    margin: 0 auto 1rem auto; /* Centraliza a imagem e adiciona espaço abaixo */
 }
 
 /* Container Principal */
@@ -345,4 +349,13 @@ button:disabled {
     width: 20px;
     height: 20px;
     z-index: 10; /* Para ficar por cima do link da imagem */
+}
+
+footer {
+    text-align: center;
+    margin-top: 3rem; /* Adiciona espaço acima do rodapé */
+    padding-top: 1rem;
+    border-top: 1px solid #ccc; /* Linha separadora */
+    font-size: 0.8rem;
+    color: #666;
 }

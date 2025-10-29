@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchImageBtn = document.getElementById('search-image-btn');
     const chatInput = document.getElementById('chat-input');
     const chatMessages = document.getElementById('chat-messages');
+    const newChatBtn = document.getElementById('new-chat-btn'); // Adicionado
     const pinterestBtn = document.getElementById('pinterest-btn');
     const pinterestUrlInput = document.getElementById('pinterest-url');
     const imageInput = document.getElementById('imagem-referencia');
@@ -353,6 +354,18 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Não foi possível extrair o nome do painel do URL.');
             console.error(error);
         }
+    });
+
+    // --- LÓGICA DO BOTÃO "NOVO CHAT" ---
+    newChatBtn.addEventListener('click', () => {
+        chatHistory = []; // Limpa o histórico da conversa
+        chatMessages.innerHTML = ''; // Limpa as mensagens no ecrã
+        // Opcional: Adicionar uma mensagem de boas-vindas
+        // const welcomeMsg = document.createElement('div');
+        // welcomeMsg.innerHTML = '<span>Olá! Descreva o estilo que procura.</span>';
+        // chatMessages.appendChild(welcomeMsg);
+        chatInput.value = ''; // Limpa o campo de input
+        chatInput.focus(); // Coloca o cursor de volta no input
     });
 
     // --- INICIALIZAÇÃO ---

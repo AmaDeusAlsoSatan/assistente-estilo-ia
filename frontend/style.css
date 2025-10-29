@@ -346,3 +346,12 @@ button:disabled {
     height: 20px;
     z-index: 10; /* Para ficar por cima do link da imagem */
 }
+
+footer {
+    text-align: center;
+    margin-top: 3rem; /* Adiciona espaço acima do rodapé */
+    padding-top: 1rem;
+    border-top: 1px solid #ccc; /* Linha separadora */
+    font-size: 0.8rem;
+    color: #666;
+}
